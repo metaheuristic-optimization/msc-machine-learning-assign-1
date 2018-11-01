@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import operator
 
 class KNN:
 
@@ -14,7 +15,7 @@ class KNN:
     def run(self):
         for index, row in self.trainingSet.iterrows():
             dist, sorted = self.calculateDistances(self.trainingSet.values, row.values)
-            self.getNearestNeighbours(dist,sorted)
+            self.getClassification(sorted)
 
     def calculateDistances(self, A, B):
         dist = np.sqrt(((A - B)**2).sum(-1))
@@ -22,8 +23,17 @@ class KNN:
 
         return dist, sorted
 
-    def getNearestNeighbours(self, dist, sorted):
-        print(sorted)
+    def getClassification(self, sorted):
+        votes = {}
         closest = sorted[:self.k]
-        print(closest)
+
+        for i in closest:
+            key = self.trainingSet.values[i][5]
+            print(key)
+            if not key in votes:
+                votes[key] = 1
+            else:
+                votes[key] += 1
+
+        return max(votes.items(), key=operator.itemgetter(1))[0]
 

@@ -4,13 +4,18 @@ import operator
 
 class KNN:
 
-    def __init__(self, trainingFile, dataFile, k):
-        self.readData(trainingFile, dataFile)
+    columns = ['bi_rads', 'age', 'shape', 'margin', 'density', 'severity']
+
+    def __init__(self, trainingFile, k):
+        self.readData(trainingFile)
         self.k = k
 
-    def readData(self, trainingFile, dataFile):
-        self.trainingSet = pd.read_csv(trainingFile, header=None)
-        self.dataSet = pd.read_csv(dataFile, header=None)
+    def readData(self, trainingFile):
+        self.trainingSet = pd.read_csv(trainingFile, names = self.columns, header=None)
+
+        print('training dataset\n\r {0}'.format(self.trainingSet.describe()))
+        self.trainingSet.drop(self.trainingSet.index[self.trainingSet['bi_rads'] > 5], inplace=True)
+        print('training dataset\n\r {0}'.format(self.trainingSet.describe()))
 
     def run(self):
         correct = 0
@@ -20,7 +25,6 @@ class KNN:
             dist, sorted = self.calculateDistances(self.trainingSet.values, row.values)
             classification = self.getClassification(sorted)
 
-            # print('Comparing', classification, ' to ', row.values[5])
             if classification == row.values[5]:
                 correct += 1
             else:

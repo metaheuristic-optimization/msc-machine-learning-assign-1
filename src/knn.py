@@ -1,5 +1,5 @@
 import numpy as np
-from pandas import read_csv
+import pandas as pd
 
 class KNN:
 
@@ -8,26 +8,18 @@ class KNN:
         self.k = k
 
     def readData(self, trainingFile, dataFile):
-        self.trainingSet = read_csv(trainingFile)
-        self.dataSet = read_csv(dataFile)
+        self.trainingSet = pd.read_csv(trainingFile, header=None)
+        self.dataSet = pd.read_csv(dataFile, header=None)
 
     def run(self):
         for index, row in self.trainingSet.iterrows():
             self.calculateDistances(self.trainingSet.values, row.values)
 
     def calculateDistances(self, A, B):
-        #print(A)
-        #print(B)
         dist = np.sqrt(((A - B)**2).sum(-1))
+        sorted = np.argsort(dist)[np.in1d(np.argsort(dist),np.where(dist),1)];
 
-        print(dist)
-        # dists = np.hypot(A[:, 0, np.newaxis]-B[:, 0], A[:, 1, np.newaxis]-B[:, 1])
-
-        #print(dists)
-        #dist = (A - B)**2
-        #dist = np.sum(dist, axis=1)
-        #dist = np.sqrt(dist)
-        #print(np.sqrt(np.sum((A - B) ** 2)))
+        return dist, sorted
 
     def getNeighbours(self):
         pass

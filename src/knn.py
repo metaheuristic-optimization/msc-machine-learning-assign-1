@@ -40,9 +40,9 @@ class KNN:
 
     def getVoteClassification(self, sorted):
         votes = {}
-        closest = sorted[:self.k]
+        kClosest = sorted[:self.k]
 
-        for i in closest:
+        for i in kClosest:
             key = self.trainingSet.values[i][5]
             if not key in votes:
                 votes[key] = 1
@@ -55,9 +55,9 @@ class KNN:
         classes = {}
         weights = {}
 
-        closest = sorted[:self.k]
+        kClosest = sorted[:self.k]
 
-        for i in closest:
+        for i in kClosest:
             key = self.trainingSet.values[i][5]
 
             if not key in classes:
@@ -77,6 +77,7 @@ class KNN:
 
         for classification in weights:
             if weights[classification] > largestWeight:
+                largestWeight = weights[classification]
                 selectedClassification = classification
 
         return selectedClassification

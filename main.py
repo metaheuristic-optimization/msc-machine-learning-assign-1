@@ -1,7 +1,7 @@
 from src.knn import KNN
 
 def main():
-    k = 6
+    k = 128
     knn = KNN('datasets/trainingData2.csv', k)
     knn.run()
 

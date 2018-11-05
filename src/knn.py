@@ -1,17 +1,19 @@
 import numpy as np
 import pandas as pd
 import operator
+from src.utils import Utils
 
 class KNN:
 
     columns = ['bi_rads', 'age', 'shape', 'margin', 'density', 'severity']
 
-    def __init__(self, trainingFile, k, distanceAlg='euclidean', classificationAlg='vote', p=1):
+    def __init__(self, trainingFile, k_value, distanceAlg='euclidean', classificationAlg='vote', p=1):
         self.readData(trainingFile)
-        self.k = k
+        self.k_value = k_value
         self.distanceAlg = distanceAlg
         self.classificationAlg = classificationAlg
         self.p = p
+        self.utils = Utils()
 
     def readData(self, trainingFile):
         self.trainingSet = pd.read_csv(trainingFile, names = self.columns, header=None)
@@ -26,9 +28,9 @@ class KNN:
             dist, sorted = self.calculateDistances(self.trainingSet.values, row.values)
 
             if self.classificationAlg == 'vote':
-                classification = self.getVoteClassification(sorted)
+                classification = self.getVoteClassification(sorted, self.trainingSet.values, self.k_value)
             elif self.classificationAlg == 'weighted':
-                classification = self.getWeightedClassification(dist, sorted)
+                classification = self.getWeightedClassification(dist, sorted, self.trainingSet.values, self.k_value)
 
             if classification == row.values[5]:
                 correct += 1
@@ -41,31 +43,22 @@ class KNN:
 
     def calculateDistances(self, a, b):
         if self.distanceAlg == 'euclidean':
-            dist = self.euclideanDistance(a, b)
+            dist = self.utils.euclideanDistance(a, b)
         elif self.distanceAlg == 'manhattan':
-            dist = self.manhattanDistance(a, b)
+            dist = self.utils.manhattanDistance(a, b)
         elif self.distanceAlg == 'minkowski':
-            dist = self.minkowskiDistance(a, b, self.p)
+            dist = self.utils.minkowskiDistance(a, b, self.p)
 
         sorted = np.argsort(dist)[np.in1d(np.argsort(dist),np.where(dist),1)]
 
         return dist, sorted
 
-    def euclideanDistance(self, a, b):
-        return np.sqrt(((a - b)**2).sum(-1))
-
-    def manhattanDistance(self, a, b):
-        return np.abs(a - b).sum(-1)
-
-    def minkowskiDistance(self, a, b, p_value = 1):
-        return np.abs(((a - b) / p_value) / (1/ p_value)).sum(-1)
-
-    def getVoteClassification(self, sorted):
+    def getVoteClassification(self, sorted, dataset, k_value):
         votes = {}
-        kClosest = sorted[:self.k]
+        kClosest = sorted[:k_value]
 
         for i in kClosest:
-            key = self.trainingSet.values[i][5]
+            key = dataset[i][5]
             if not key in votes:
                 votes[key] = 1
             else:
@@ -73,14 +66,14 @@ class KNN:
 
         return max(votes.items(), key=operator.itemgetter(1))[0]
 
-    def getWeightedClassification(self, dist, sorted):
+    def getWeightedClassification(self, dist, sorted, dataset, k_value):
         classes = {}
         weights = {}
 
-        kClosest = sorted[:self.k]
+        kClosest = sorted[:k_value]
 
         for i in kClosest:
-            key = self.trainingSet.values[i][5]
+            key = dataset[i][5]
 
             if not key in classes:
                 classes[key] = [dist[i]]

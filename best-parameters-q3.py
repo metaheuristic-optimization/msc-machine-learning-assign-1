@@ -1,10 +1,9 @@
 from itertools import product
-from src.knn import KNN
+from src.knn_regression import KNNRegression
 
 params = {
     'k_value': range(1, 10),
     'distanceAlg': ['euclidean', 'manhattan', 'minkowski'],
-    'classificationAlg': ['vote', 'weighted'],
     'p': range(1, 5)
 }
 
@@ -14,8 +13,8 @@ def main():
     bestParams = None
 
     for vals in product(*params.values()):
-        knn = KNN('datasets/trainingData2.csv', **dict(zip(params, vals)))
-        accuracy = knn.run()
+        knn = KNNRegression('datasets/regression/trainingData.csv', **dict(zip(params, vals)))
+        accuracy = knn.predict()
         if accuracy > best:
             best = accuracy
             bestParams = vals

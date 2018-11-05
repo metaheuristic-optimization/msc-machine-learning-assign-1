@@ -13,9 +13,7 @@ class KNN:
     def readData(self, trainingFile):
         self.trainingSet = pd.read_csv(trainingFile, names = self.columns, header=None)
 
-        print('training dataset\n\r {0}'.format(self.trainingSet.describe()))
         self.trainingSet.drop(self.trainingSet.index[self.trainingSet['bi_rads'] > 5], inplace=True)
-        print('training dataset\n\r {0}'.format(self.trainingSet.describe()))
 
     def run(self):
         correct = 0
@@ -23,7 +21,7 @@ class KNN:
 
         for index, row in self.trainingSet.iterrows():
             dist, sorted = self.calculateDistances(self.trainingSet.values, row.values)
-            classification = self.getClassification(sorted)
+            classification = self.getWeightedClassification(dist, sorted)
 
             if classification == row.values[5]:
                 correct += 1
@@ -40,7 +38,7 @@ class KNN:
 
         return dist, sorted
 
-    def getClassification(self, sorted):
+    def getVoteClassification(self, sorted):
         votes = {}
         closest = sorted[:self.k]
 
@@ -53,3 +51,31 @@ class KNN:
 
         return max(votes.items(), key=operator.itemgetter(1))[0]
 
+    def getWeightedClassification(self, dist, sorted):
+
+        classes = {}
+        weights = {}
+
+        for i in sorted:
+            key = self.trainingSet.values[i][5]
+
+            if not key in classes:
+                classes[key] = [dist[i]]
+            else:
+                classes[key].append(dist[i])
+
+        for classification in classes:
+            total = 0
+            for i in classes[classification]:
+                total += (1 / i)
+
+            weights[classification] = total
+
+        largestWeight = 0
+        selectedClassification = None
+
+        for classification in weights:
+            if weights[classification] > largestWeight:
+                selectedClassification = classification
+
+        return selectedClassification

@@ -6,9 +6,12 @@ class KNN:
 
     columns = ['bi_rads', 'age', 'shape', 'margin', 'density', 'severity']
 
-    def __init__(self, trainingFile, k):
+    def __init__(self, trainingFile, k, distanceAlg='euclidean', classificationAlg='vote', p=1):
         self.readData(trainingFile)
         self.k = k
+        self.distanceAlg = distanceAlg
+        self.classificationAlg = classificationAlg
+        self.p = p
 
     def readData(self, trainingFile):
         self.trainingSet = pd.read_csv(trainingFile, names = self.columns, header=None)
@@ -21,7 +24,11 @@ class KNN:
 
         for index, row in self.trainingSet.iterrows():
             dist, sorted = self.calculateDistances(self.trainingSet.values, row.values)
-            classification = self.getWeightedClassification(dist, sorted)
+
+            if self.classificationAlg == 'vote':
+                classification = self.getVoteClassification(sorted)
+            elif self.classificationAlg == 'weighted':
+                classification = self.getWeightedClassification(dist, sorted)
 
             if classification == row.values[5]:
                 correct += 1
@@ -30,13 +37,28 @@ class KNN:
 
         accuracy = (correct / (correct + incorrect)) * 100
 
-        print('Accuracy is: ', accuracy, '%')
+        return accuracy
 
-    def calculateDistances(self, A, B):
-        dist = np.sqrt(((A - B)**2).sum(-1))
+    def calculateDistances(self, a, b):
+        if self.distanceAlg == 'euclidean':
+            dist = self.euclideanDistance(a, b)
+        elif self.distanceAlg == 'manhattan':
+            dist = self.manhattanDistance(a, b)
+        elif self.distanceAlg == 'minkowski':
+            dist = self.minkowskiDistance(a, b, self.p)
+
         sorted = np.argsort(dist)[np.in1d(np.argsort(dist),np.where(dist),1)]
 
         return dist, sorted
+
+    def euclideanDistance(self, a, b):
+        return np.sqrt(((a - b)**2).sum(-1))
+
+    def manhattanDistance(self, a, b):
+        return np.abs(a - b).sum(-1)
+
+    def minkowskiDistance(self, a, b, p_value = 1):
+        return np.abs(((a - b) / p_value) / (1/ p_value)).sum(-1)
 
     def getVoteClassification(self, sorted):
         votes = {}

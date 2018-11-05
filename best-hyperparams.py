@@ -2,10 +2,10 @@ from itertools import product
 from src.knn import KNN
 
 params = {
-    'k': range(1, 128),
+    'k': range(1, 20),
     'distanceAlg': ['euclidean', 'manhattan', 'minkowski'],
     'classificationAlg': ['vote', 'weighted'],
-    'p': range(1, 5)
+    'p': range(1, 4)
 }
 
 def main():

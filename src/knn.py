@@ -52,11 +52,12 @@ class KNN:
         return max(votes.items(), key=operator.itemgetter(1))[0]
 
     def getWeightedClassification(self, dist, sorted):
-
         classes = {}
         weights = {}
 
-        for i in sorted:
+        closest = sorted[:self.k]
+
+        for i in closest:
             key = self.trainingSet.values[i][5]
 
             if not key in classes:

@@ -1,3 +1,10 @@
+## Pre-requisites
+
+You need to have the following packages installed
+
+- pandas
+- numpy
+
 ## Classification
 
 #### How to run the classification model?

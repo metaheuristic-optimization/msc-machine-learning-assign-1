@@ -9,8 +9,8 @@ def main():
             - manhattan
             - minkowski
     """
-    dataset = 'datasets/regression/trainingData.csv'
-    k_value = 3
+    dataset = 'datasets/regression/testData.csv'
+    k_value = 4
     distanceAlg = 'euclidean'
     p_value = 1
 

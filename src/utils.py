@@ -10,15 +10,3 @@ class Utils:
 
     def minkowskiDistance(self, a, b, p_value = 1):
         return np.abs(((a - b) / p_value) / (1/ p_value)).sum(-1)
-
-    def calculateDistances(self, a, b, algo = 'euclidean', p=1):
-        if algo == 'euclidean':
-            dist = self.euclideanDistance(a, b)
-        elif algo == 'manhattan':
-            dist = self.manhattanDistance(a, b)
-        elif algo == 'minkowski':
-            dist = self.minkowskiDistance(a, b, p)
-
-        sorted = np.argsort(dist)[np.in1d(np.argsort(dist),np.where(dist),1)]
-
-        return dist, sorted

@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 from src.utils import Utils
 
+"""
+    K-Nearest-neighbours for regression
+"""
 class KNNRegression:
 
     def __init__(self, datasetFile, k_value, distanceAlg='euclidean', p=1):

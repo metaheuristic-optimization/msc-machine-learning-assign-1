@@ -37,7 +37,7 @@ class KNNRegression:
     def predict(self):
         averages = []
         for index, row in self.dataset.iterrows():
-            dist, sorted = self.calculateDistances(self.dataset.values, row.values)
+            dist, sorted = self.calculateDistances(self.dataset.loc[:,0:11].values, row[0:12].values)
 
             averages.append(self.calcuclateAverages(sorted))
 

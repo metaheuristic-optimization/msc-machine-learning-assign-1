@@ -13,11 +13,11 @@ def main():
             - vote
             - weighted distance
     """
-    dataset = 'datasets/classification/trainingData2.csv'
+    dataset = 'datasets/classification/testData2.csv'
     k_value = 3
     distanceAlg = 'euclidean'
     classificationAlg = 'vote'
-    p_value = 1
+    p_value = 2
 
     """
         Create the KNN model and display the accuracy

@@ -58,7 +58,7 @@ class KNN:
             Loop through the data frame and get the distance between every row to every other row
         """
         for index, row in self.dataset.iterrows():
-            dist, sorted = self.calculateDistances(self.dataset.values, row.values)
+            dist, sorted = self.calculateDistances(self.dataset.loc[:,'bi_rads':'density'].values, row[0:5].values)
 
             """
                 Choose which classification algorithm to use

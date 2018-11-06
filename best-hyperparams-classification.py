@@ -20,7 +20,7 @@ def main():
     bestParams = None
 
     for vals in product(*params.values()):
-        knn = KNN('datasets/trainingData2.csv', **dict(zip(params, vals)))
+        knn = KNN('datasets/classification/testData.csv', **dict(zip(params, vals)))
         accuracy = knn.run()
         if accuracy > best:
             best = accuracy

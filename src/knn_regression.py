@@ -42,17 +42,13 @@ class KNNRegression:
             averages.append(self.calcuclateAverages(sorted))
 
         epsilon = np.square(self.dataset[12] - averages).sum()
-        print('Epsilon is {0}'.format(epsilon))
 
         # total sum of squares (TSS) = ((y_average - y_predicted) ^2 ).sum()
         average_of_training_data = np.average(self.dataset[12])
 
         tss = np.square(average_of_training_data-averages).sum()
-        print('TSS is {0}'. format(tss))
 
         accuracy = 1 - (epsilon/tss)
-        print('R squared coefficient is {0}'. format(accuracy))
-        print('Accuracy of the model is: {0:.4f}%'.format(accuracy*100))
 
         return accuracy * 100
 

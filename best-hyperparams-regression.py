@@ -19,14 +19,15 @@ def main():
     bestParams = None
 
     for vals in product(*params.values()):
-        knn = KNNRegression('datasets/regression/trainingData.csv', **dict(zip(params, vals)))
+        knn = KNNRegression('datasets/regression/testData.csv', **dict(zip(params, vals)))
         accuracy = knn.predict()
         if accuracy > best:
             best = accuracy
             bestParams = vals
+            print('Current best accuracy: {0:.2f}% with combination {1}'.format(accuracy, bestParams))
 
     print('Best parameters: ', bestParams)
-    print('Best accuracy: {0:.4f}%'.format(accuracy))
+    print('Best accuracy: {0:.2f}%'.format(best))
 
 if __name__ == "__main__":
     main()

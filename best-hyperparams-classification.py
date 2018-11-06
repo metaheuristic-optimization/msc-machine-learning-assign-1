@@ -5,7 +5,7 @@ params = {
     'k_value': range(1, 10),
     'distanceAlg': ['euclidean', 'manhattan', 'minkowski'],
     'classificationAlg': ['vote', 'weighted'],
-    'p': range(1, 5)
+    'p': range(1, 10)
 }
 
 """
@@ -25,10 +25,10 @@ def main():
         if accuracy > best:
             best = accuracy
             bestParams = vals
+            print('Current best accuracy: {0:.2f}% with combination {1}'.format(accuracy, bestParams))
 
     print('Best parameters: ', bestParams)
-
-    print('Best accuracy: {0:.2f}%'.format(accuracy))
+    print('Best accuracy: {0:.2f}%'.format(best))
 
 if __name__ == "__main__":
     main()

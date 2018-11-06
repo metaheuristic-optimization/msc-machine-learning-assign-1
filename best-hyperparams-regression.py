@@ -26,7 +26,7 @@ def main():
             bestParams = vals
 
     print('Best parameters: ', bestParams)
-    print('Best accuracy: ', best)
+    print('Best accuracy: {0:.4f}%'.format(accuracy))
 
 if __name__ == "__main__":
     main()

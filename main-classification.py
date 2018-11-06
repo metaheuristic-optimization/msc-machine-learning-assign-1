@@ -26,7 +26,7 @@ def main():
 
     accuracy = knn.run()
 
-    print('Accuracy is: ', accuracy, '%')
+    print('Accuracy is: {0:.2f}%'.format(accuracy))
 
 if __name__ == "__main__":
     main()

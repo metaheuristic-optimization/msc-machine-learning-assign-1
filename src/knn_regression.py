@@ -52,7 +52,7 @@ class KNNRegression:
 
         accuracy = 1 - (epsilon/tss)
         print('R squared coefficient is {0}'. format(accuracy))
-        print('Accuracy of the model is: {0}'.format(accuracy*100))
+        print('Accuracy of the model is: {0:.4f}%'.format(accuracy*100))
 
         return accuracy * 100
 

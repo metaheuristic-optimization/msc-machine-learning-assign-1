@@ -13,7 +13,7 @@ def main():
             - vote
             - weighted distance
     """
-    dataset = 'datasets/classification/testData2.csv'
+    dataset = 'datasets/classification/trainingData2.csv'
     k_value = 3
     distanceAlg = 'euclidean'
     classificationAlg = 'vote'

@@ -16,7 +16,7 @@ class KNN:
     """
         Constructor with configurable parameters
     
-        datasetFIle should be the path to the dataset we want to load.
+        datasetFile should be the path to the dataset we want to load.
         k_value is used for selecting n nearest neighbours.
         distanceAlg is the algorithm we will use for calculating the distance between points. Algorithms supported are
             - euclidean
@@ -25,9 +25,10 @@ class KNN:
         classificationAlg is the classification algorithm we will use. Currently this class supports 2 methods.
             - vote
             - weighted distance
+        p value is used for the minkowski algorithm
     """
-    def __init__(self, datasetFIle, k_value, distanceAlg='euclidean', classificationAlg='vote', p=1):
-        self.readData(datasetFIle)
+    def __init__(self, datasetFile, k_value, distanceAlg='euclidean', classificationAlg='vote', p=1):
+        self.readData(datasetFile)
         self.k_value = k_value
         self.distanceAlg = distanceAlg
         self.classificationAlg = classificationAlg

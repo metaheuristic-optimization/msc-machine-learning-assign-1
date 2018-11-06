@@ -8,6 +8,12 @@ params = {
     'p': range(1, 5)
 }
 
+"""
+    Attempt to find the best hyper parameters for our classification problem. This uses a brute force method
+    which will run through every combination of the params above. The accuracy of the model is used to find the best
+    parameters. When the program completes it will display th combination of best parameters. NOTE as this will run
+    through every possible combination, it can take a while to run depending on your hardware.
+"""
 def main():
 
     best = 0
